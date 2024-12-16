@@ -35,7 +35,6 @@ log/
 
 # Archivos de configuración sensibles
 application.yml
-application.properties
 *.env
 
 # Credenciales de conexión

@@ -11,6 +11,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.List;
 
 @Service
@@ -19,7 +20,7 @@ public class GoogleSheetsService {
 	@Value("${google.sheets.spreadsheetId}")
 	private String spreadsheetId;
 
-	@Value("${google.credentials.json}")
+	@Value("${google.cre.json}")
 	private String googleCredentialsJson;
 
 	private Sheets sheetsService;
@@ -28,7 +29,7 @@ public class GoogleSheetsService {
 	public Sheets getSheetsService() throws GeneralSecurityException, IOException {
 		if (sheetsService == null) {
 			GoogleCredential credential = GoogleCredential
-					.fromStream(new ByteArrayInputStream(googleCredentialsJson.getBytes()))
+					.fromStream(new ByteArrayInputStream(Base64.getDecoder().decode(googleCredentialsJson.getBytes())))
 					.createScoped(Arrays.asList("https://www.googleapis.com/auth/spreadsheets"));
 
 			sheetsService = new Sheets.Builder(credential.getTransport(), credential.getJsonFactory(), credential)
