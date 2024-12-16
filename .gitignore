@@ -1,0 +1,46 @@
+# Directorios y archivos generados por Maven
+target/
+*.war
+*.ear
+*.jar
+
+# Directorios y archivos generados por Gradle
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+
+# Archivos del sistema operativo
+.DS_Store
+Thumbs.db
+
+# Archivos de configuración de IDEs
+# IntelliJ IDEA
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# Eclipse
+*.classpath
+*.project
+*.settings/
+
+# VS Code
+.vscode/
+
+# Archivos de logs
+*.log
+logs/
+log/
+
+# Archivos de configuración sensibles
+application.yml
+application.properties
+*.env
+
+# Credenciales de conexión
+credentials.json
+
+# Otros
+*.swp
+
