@@ -4,6 +4,8 @@ import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
 import com.google.api.services.sheets.v4.Sheets;
 import com.google.api.services.sheets.v4.model.*;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -24,10 +26,15 @@ public class GoogleSheetsService {
 
 	private Sheets sheetsService;
 
+    // Crear el objeto Logger
+    private static final Logger logger = LoggerFactory.getLogger(GoogleSheetsService.class);
+
+
 	// Método para autenticar y obtener servicio de Google Sheets
 	@SuppressWarnings("deprecation")
 	public Sheets getSheetsService() throws GeneralSecurityException, IOException {
-		
+
+        logger.info("getSheetsService: {}", googleCredentialsJson);
 		if (sheetsService == null) {
 			GoogleCredential credential = GoogleCredential
 					.fromStream(new ByteArrayInputStream(googleCredentialsJson.getBytes()))
