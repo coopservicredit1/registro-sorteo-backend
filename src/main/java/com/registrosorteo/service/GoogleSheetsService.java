@@ -9,10 +9,8 @@ import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.security.GeneralSecurityException;
 import java.util.Arrays;
-import java.util.Base64;
 import java.util.List;
 
 @Service
@@ -27,12 +25,12 @@ public class GoogleSheetsService {
 	private Sheets sheetsService;
 
 	// Método para autenticar y obtener servicio de Google Sheets
+	@SuppressWarnings("deprecation")
 	public Sheets getSheetsService() throws GeneralSecurityException, IOException {
-		String credentils = new String(Base64.getDecoder().decode(googleCredentialsJson));
 		
 		if (sheetsService == null) {
 			GoogleCredential credential = GoogleCredential
-					.fromStream(new ByteArrayInputStream(credentils.getBytes()))
+					.fromStream(new ByteArrayInputStream(googleCredentialsJson.getBytes()))
 					.createScoped(Arrays.asList("https://www.googleapis.com/auth/spreadsheets"));
 
 			sheetsService = new Sheets.Builder(credential.getTransport(), credential.getJsonFactory(), credential)
