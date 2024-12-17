@@ -5,10 +5,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.registrosorteo.dto.RegistroRequest;
+import com.registrosorteo.Constantes;
+import com.registrosorteo.dto.ApiResponse;
 import com.registrosorteo.service.GoogleSheetsService;
-
-import java.io.IOException;
-import java.security.GeneralSecurityException;
 
 @RestController
 @RequestMapping("/api")
@@ -18,15 +17,24 @@ public class RegistroController {
 	private GoogleSheetsService googleSheetsService;
 
 	@PostMapping("/registrar")
-	public ResponseEntity<String> registrar(@RequestBody RegistroRequest request) {
+	public ResponseEntity<ApiResponse<String>> registrar(@RequestBody RegistroRequest request) {
 		try {
-			googleSheetsService.addRecordToSheet(request.getNombre(), request.getDni(), request.getCelularPrincipal(),
-					request.getCelularOpcional(), request.getCorreoPrincipal(), request.getCorreoOpcional(),
-					request.getEmpresa(), request.isAutorizacion(), request.isAfiliacion());
-			return ResponseEntity.ok("Registro guardado exitosamente!");
-		} catch (IOException | GeneralSecurityException e) {
+			// Llama al servicio para agregar el registro
+			ApiResponse<String> response = googleSheetsService.addRecordToSheet(request.getNombre(), request.getDni(),
+					request.getCelularPrincipal(), request.getCelularOpcional(), request.getCorreoPrincipal(),
+					request.getCorreoOpcional(), request.getEmpresa(), request.isAutorizacion(),
+					request.isAfiliacion());
+
+			// Devuelve la respuesta generada por el servicio
+			return ResponseEntity.ok(response);
+
+		} catch (Exception e) {
 			e.printStackTrace();
-			return ResponseEntity.ok("Error al guardar el registro: " + e.getMessage());
+
+			// Devuelve un error con código 0
+			ApiResponse<String> errorResponse = new ApiResponse<>(Constantes.RESPONSE_CODE_ERROR,
+					"Error al guardar el registro: " + e.getMessage());
+			return ResponseEntity.status(500).body(errorResponse);
 		}
 	}
 }
