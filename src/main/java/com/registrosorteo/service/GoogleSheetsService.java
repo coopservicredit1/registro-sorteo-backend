@@ -105,15 +105,23 @@ public class GoogleSheetsService {
 					.setValueInputOption("RAW").execute();
 
 			try {
+				// Lista de rutas de los archivos a adjuntar
+				List<String> rutasArchivos = new ArrayList<>();
+				rutasArchivos.add("src/main/resources/pdf/Servicredit-politicas-de-privacidad-uso-de-datos.pdf");
+				if (afiliacion) {
+					rutasArchivos.add("src/main/resources/pdf/solicitud-afiliacion-socios.pdf");
+				}
+
 				// Enviar correo al cliente
 				String asunto = "Confirmación de Registro al Sorteo";
 				String cuerpo = String.format(
-						"Hola %s,\n\nGracias por registrarte en el sorteo. %s.\n\nTus datos:\n- DNI: %s\n- Celular: %s\n- Correo: %s\n\n¡Buena suerte!",
-						nombre, sorteoValido, dni, celularPrincipal, correoPrincipal);
-				emailService.enviarCorreo(correoPrincipal, asunto, cuerpo);
+						"Hola %s,\n\nGracias por registrarte en el sorteo.\n\nTus datos:\n- DNI: %s\n- Celular: %s\n- Correo: %s\n\n¡Buena suerte!",
+						nombre, dni, celularPrincipal, correoPrincipal);
+				emailService.enviarCorreo(correoPrincipal, asunto, cuerpo, rutasArchivos);
 
 			} catch (Exception e) {
-				logger.error("Hubo un problema al enviar el correo para el sorteo: {} - para el cliente con DNI: {} - ErrorMessage: {}",
+				logger.error(
+						"Hubo un problema al enviar el correo para el sorteo: {} - para el cliente con DNI: {} - ErrorMessage: {}",
 						sorteoValido, dni, e.getMessage());
 			}
 
