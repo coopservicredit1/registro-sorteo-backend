@@ -115,7 +115,7 @@ public class GoogleSheetsService {
 				// Enviar correo al cliente
 				String asunto = "Confirmación de Registro a Servicredit";
 				String cuerpo = String.format(
-						"Hola %s,\n\nGracias por registrarte en el sorteo.\n\nTus datos:\n- DNI: %s\n- Celular: %s\n- Correo: %s\n\n¡Buena suerte!",
+						"Hola %s,\n\nGracias por registrarte a Servicredit.\n\nTus datos:\n- DNI: %s\n- Celular: %s\n- Correo: %s\n\n¡Buena suerte!",
 						nombre, dni, celularPrincipal, correoPrincipal);
 				emailService.enviarCorreo(correoPrincipal, asunto, cuerpo, rutasArchivos);
 
